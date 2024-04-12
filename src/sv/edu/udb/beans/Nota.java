@@ -5,7 +5,7 @@ public class Nota {
     private int idMateria;
     private double nota;
 
-    public Nota(int idEstudiante, int idMateria, double nota){
+    public Nota(int idEstudiante, double nota){
         this.idEstudiante = idEstudiante;
         this.idMateria = idMateria;
         this.nota = nota;

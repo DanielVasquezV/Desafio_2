@@ -1,5 +1,8 @@
 package sv.edu.udb.forms;
 
+import sv.edu.udb.beans.Estudiante;
+import sv.edu.udb.utils.DBConnection;
+import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -21,7 +24,7 @@ public class ListarEstudiantes extends JFrame {
         this.setMinimumSize(new Dimension(700, 450));
         this.setLocationRelativeTo(getParent());
         //Table Header
-        String [] listColums = {"Nombres", "Apellidos", "Teléfono"};
+        String [] listColums = {"ID","Nombres", "Apellidos", "Teléfono"};
         //Table model definitions
         listAllStudents = new DefaultTableModel(listColums, 0){
             public boolean isCellEditable(int row, int column) {
@@ -32,6 +35,10 @@ public class ListarEstudiantes extends JFrame {
         tblStudents.setColumnSelectionAllowed(false);
         tblStudents.setRowSelectionAllowed(true);
         tblStudents.setModel(listAllStudents);
+
+        // Fetch students data from database and populate the table
+        loadStudentsData();
+
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -43,10 +50,45 @@ public class ListarEstudiantes extends JFrame {
         btnViewSelection.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DetalleEstudiante detalleEstudiante = new DetalleEstudiante();
-                detalleEstudiante.setVisible(true);
-                dispose();
+                int selectedRow = tblStudents.getSelectedRow();
+                if (selectedRow != -1) {
+                    int studentId = (int) tblStudents.getValueAt(selectedRow, 0);
+                    DetalleEstudiante detalleEstudiante = new DetalleEstudiante(studentId);
+                    detalleEstudiante.setVisible(true);
+                    dispose();
+                }
             }
         });
+    }
+    // Method to load students data from the database
+    private void loadStudentsData() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnection.getConnection();
+            String query = "SELECT idEstudiante, nombres, apellidos, telefono FROM estudiantes";
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Estudiante estudiante = new Estudiante();
+                estudiante.setIdEstudiante(rs.getInt("IdEstudiante"));
+                estudiante.setNombres(rs.getString("nombres"));
+                estudiante.setApellidos(rs.getString("apellidos"));
+                estudiante.setTelefono(rs.getString("telefono"));
+
+                Object[] rowData = {estudiante.getIdEstudiante(), estudiante.getNombres(), estudiante.getApellidos(), estudiante.getTelefono()};
+                listAllStudents.addRow(rowData);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources
+            DBConnection.close(rs);
+            DBConnection.close(stmt);
+            DBConnection.close(conn);
+        }
     }
 }
