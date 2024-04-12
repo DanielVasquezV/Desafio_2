@@ -1,4 +1,4 @@
-package beans;
+package sv.edu.udb.beans;
 
 public class Materia {
     private int idMateria;

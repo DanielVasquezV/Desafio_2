@@ -1,20 +1,18 @@
-package forms;
+package sv.edu.udb.forms;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AnadirEstudiante extends JFrame{
+public class AnadirMateria extends JFrame{
     private JPanel mainPanel;
     private JButton btnBack;
-    private JTextField txtStudentName;
-    private JTextField txtStudentLastName;
-    private JTextField txtStudentAddress;
-    private JTextField txtStudentPhone;
-    private JButton btnAddStudent;
+    private JTextField txtSubjectName;
+    private JButton btnAddSubject;
+    private JPanel contentPanel;
 
-    public AnadirEstudiante() {
+    public AnadirMateria() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.setMinimumSize(new Dimension(700, 450));

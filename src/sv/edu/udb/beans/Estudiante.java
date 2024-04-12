@@ -1,4 +1,4 @@
-package beans;
+package sv.edu.udb.beans;
 
 public class Estudiante {
     private int idEstudiante;
@@ -14,6 +14,11 @@ public class Estudiante {
         this.direccion = direccion;
         this.telefono = telefono;
     }
+
+    public Estudiante() {
+
+    }
+
     // Métodos Setter
     public void setIdEstudiante(int idEstudiante) {
         this.idEstudiante = idEstudiante;

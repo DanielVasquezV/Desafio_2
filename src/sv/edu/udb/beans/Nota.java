@@ -1,4 +1,4 @@
-package beans;
+package sv.edu.udb.beans;
 
 public class Nota {
     private int idEstudiante;

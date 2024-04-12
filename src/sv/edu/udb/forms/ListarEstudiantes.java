@@ -1,4 +1,4 @@
-package forms;
+package sv.edu.udb.forms;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

@@ -1,18 +1,19 @@
-package forms;
+package sv.edu.udb.forms;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AnadirMateria extends JFrame{
+public class AnadirNota extends JFrame{
     private JPanel mainPanel;
     private JButton btnBack;
-    private JTextField txtSubjectName;
-    private JButton btnAddSubject;
-    private JPanel contentPanel;
+    private JComboBox cmbSubjects;
+    private JComboBox cmbStudents;
+    private JTextField txtSubjectGrade;
+    private JButton btnAddGrade;
 
-    public AnadirMateria() {
+    public AnadirNota() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.setMinimumSize(new Dimension(700, 450));

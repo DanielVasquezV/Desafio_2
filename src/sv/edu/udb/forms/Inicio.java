@@ -1,4 +1,4 @@
-package forms;
+package sv.edu.udb.forms;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,5 +58,6 @@ public class Inicio extends JFrame{
                 System.exit(1);
             }
         });
+
     }
 }
