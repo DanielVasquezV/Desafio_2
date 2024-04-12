@@ -4,7 +4,7 @@ public class Materia {
     private int idMateria;
     private String materia;
 
-    public Materia(int idMateria, String materia){
+    public Materia(String materia){
         this.idMateria = idMateria;
         this.materia = materia;
     }
