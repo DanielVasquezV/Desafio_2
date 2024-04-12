@@ -64,11 +64,15 @@ public class AnadirEstudiante extends JFrame{
         estudiantesDatos.insertStudent(estudiante);
 
     }
-    public static void main(String[] args) {
-        // Create a new instance of AnadirEstudiante and make it visible
-        AnadirEstudiante frame = new AnadirEstudiante();
-        frame.setVisible(true);
-    }
+
+        public static void main(String[] args) {
+            JFrame frame = new JFrame();
+            frame.setContentPane(new AnadirEstudiante().mainPanel);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+
+        }
 
 
 }

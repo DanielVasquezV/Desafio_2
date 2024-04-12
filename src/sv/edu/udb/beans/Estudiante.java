@@ -15,6 +15,9 @@ public class Estudiante {
         this.telefono = telefono;
     }
 
+    public Estudiante() {
+
+    }
 
 
     // Métodos Setter

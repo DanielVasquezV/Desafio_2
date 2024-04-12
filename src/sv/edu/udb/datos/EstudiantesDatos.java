@@ -14,7 +14,7 @@ public class EstudiantesDatos {
         int rows = 0;
         try {
             conn = DBConnection.getConnection();
-            String SQL_Insert = "INSERT INTO estudiantes (IdEstudiante, nombre, apellido, direccion, telefono) VALUES (?,?,?,?,?)";
+            String SQL_Insert = "INSERT INTO estudiantes (IdEstudiante, nombres, apellidos, direccion, telefono) VALUES (?,?,?,?,?)";
             stmt = conn.prepareStatement(SQL_Insert);
             stmt.setInt(1, estudiante.getIdEstudiante());
             stmt.setString(2,estudiante.getNombres());
