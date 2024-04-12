@@ -8,8 +8,6 @@ import sv.edu.udb.utils.DBConnection;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +22,7 @@ public class DetalleEstudiante extends JFrame {
     private JLabel lblStudentPhone;
     private JLabel lblStudentLastName;
 
-    DefaultTableModel listSubjects = null;
+    DefaultTableModel listSubjects;
 
     public DetalleEstudiante(int studentId) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,7 +35,7 @@ public class DetalleEstudiante extends JFrame {
         listSubjects = new DefaultTableModel(listColums, 0){
             public boolean isCellEditable(int row, int column) {
                 return false;
-            };
+            }
         };
         tblSubjects.setModel(listSubjects);
         //Fecth the student data
@@ -47,7 +45,7 @@ public class DetalleEstudiante extends JFrame {
 
         try {
             conn = DBConnection.getConnection();
-            String query = "SELECT idEstudiante, nombres, apellidos, telefono, dirección FROM estudiantes WHERE idEstudiante = ?";
+            String query = "SELECT idEstudiante, nombres, apellidos, telefono, direccion FROM estudiantes WHERE idEstudiante = ?";
             stmt = conn.prepareStatement(query);
             stmt.setInt(1, studentId); // Set the student ID as a parameter
             rs = stmt.executeQuery();
@@ -58,7 +56,7 @@ public class DetalleEstudiante extends JFrame {
                 estudiante.setNombres(rs.getString("nombres"));
                 estudiante.setApellidos(rs.getString("apellidos"));
                 estudiante.setTelefono(rs.getString("telefono"));
-                estudiante.setDireccion(rs.getString("dirección"));
+                estudiante.setDireccion(rs.getString("direccion"));
 
                 lblStudentName.setText(estudiante.getNombres());
                 lblStudentLastName.setText(estudiante.getApellidos());
@@ -66,7 +64,7 @@ public class DetalleEstudiante extends JFrame {
                 lblStudentPhone.setText(estudiante.getDireccion());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             // Close resources
             DBConnection.close(rs);
@@ -94,20 +92,17 @@ public class DetalleEstudiante extends JFrame {
                 listSubjects.addRow(rowData);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             DBConnection.close(rs);
             DBConnection.close(stmt);
             DBConnection.close(conn);
         }
 
-        btnBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ListarEstudiantes listarEstudiantes = new ListarEstudiantes();
-                listarEstudiantes.setVisible(true);
-                dispose();
-            }
+        btnBack.addActionListener(e -> {
+            ListarEstudiantes listarEstudiantes = new ListarEstudiantes();
+            listarEstudiantes.setVisible(true);
+            dispose();
         });
     }
 }

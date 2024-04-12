@@ -2,16 +2,17 @@ package sv.edu.udb.datos;
 
 import sv.edu.udb.beans.Estudiante;
 import java.sql.*;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+
 import sv.edu.udb.utils.DBConnection;
+import sv.edu.udb.utils.ItemCombox;
+
 public class EstudiantesDatos {
 
-    public int insertStudent(Estudiante estudiante) {
+    public void insertStudent(Estudiante estudiante) {
 
         Connection conn;
         PreparedStatement stmt;
-        ResultSet rs;
-        int rows = 0;
         try {
             conn = DBConnection.getConnection();
             String SQL_Insert = "INSERT INTO estudiantes (IdEstudiante, nombres, apellidos, direccion, telefono) VALUES (?,?,?,?,?)";
@@ -21,13 +22,33 @@ public class EstudiantesDatos {
             stmt.setString(3, estudiante.getApellidos());
             stmt.setString(4, estudiante.getDireccion());
             stmt.setString(5, estudiante.getTelefono());
-            rows = stmt.executeUpdate();
+            stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estudiante agregado exitosamente");
 
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, "Estudiante no Insertado");
+            System.out.println(e.getMessage());
 
         }
-        return rows;
+    }
+
+    public DefaultComboBoxModel<ItemCombox> selectStudent() {
+        DefaultComboBoxModel<ItemCombox> model = new DefaultComboBoxModel<>();
+        Connection conn;
+        PreparedStatement stmt;
+        ResultSet rs;
+
+        try {
+            conn = DBConnection.getConnection();
+            String SQL_SELECT = "SELECT IdEstudiante, nombres FROM estudiantes ORDER BY IdEstudiante";
+            stmt = conn.prepareStatement(SQL_SELECT);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                model.addElement( new ItemCombox(rs.getInt(1) ,rs.getString(2)));
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return model;
     }
 }

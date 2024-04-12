@@ -5,11 +5,21 @@ public class Nota {
     private int idMateria;
     private double nota;
 
-    public Nota(int idEstudiante, double nota){
+    public Nota(int idEstudiante,int idMateria, double nota){
         this.idEstudiante = idEstudiante;
         this.idMateria = idMateria;
         this.nota = nota;
     }
+
+    public Nota() {
+
+    }
+
+    public Nota(int studentId, double nota) {
+        this.idEstudiante = studentId;
+        this.nota=nota;
+    }
+
     // Métodos Setter
     public void setIdEstudiante(int idEstudiante) {
         this.idEstudiante = idEstudiante;

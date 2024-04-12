@@ -83,7 +83,7 @@ public class ListarEstudiantes extends JFrame {
                 listAllStudents.addRow(rowData);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             // Close resources
             DBConnection.close(rs);

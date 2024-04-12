@@ -23,6 +23,7 @@ public class AnadirEstudiante extends JFrame{
 
     public AnadirEstudiante() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setContentPane(mainPanel);
         this.setMinimumSize(new Dimension(700, 450));
         this.setLocationRelativeTo(getParent());
         btnBack.addActionListener(new ActionListener() {
@@ -48,31 +49,25 @@ public class AnadirEstudiante extends JFrame{
         String StudentPhone = txtStudentPhone.getText();
 
         if(StudentName.isEmpty() || StudentName.matches("[0-9]")){
-            JOptionPane.showMessageDialog(null, "El nombre del etudiante no puede estar vacio");
+            JOptionPane.showMessageDialog(null, "El campo nombre del estudiante no puede estar vacío"
+                    , "Error de validación", JOptionPane.ERROR_MESSAGE);
         }
         else if(StudentLastName.isEmpty() || StudentLastName.matches("[0-9]")){
-            JOptionPane.showMessageDialog(null, "El apellido del estudiante no puede estar vacio");
+            JOptionPane.showMessageDialog(null, "El apellido del estudiante no puede estar vacio",
+                    "Error de validacion", JOptionPane.ERROR_MESSAGE);
         }
         else if(StudentAddress.isEmpty()){
-            JOptionPane.showMessageDialog(null, "La direccion del estudiante no puede estar vacia");
+            JOptionPane.showMessageDialog(null, "La direccion del estudiante no puede estar vacia",
+                    "Error de validacion", JOptionPane.ERROR_MESSAGE);
         }
         else if(StudentPhone.isEmpty()){
-            JOptionPane.showMessageDialog(null,"Debe agregar un numero de telefono en caso de emergencia");
+            JOptionPane.showMessageDialog(null,"Debe agregar un numero de telefono en caso de emergencia",
+                    "Error de validacion", JOptionPane.ERROR_MESSAGE);
         }
         Estudiante estudiante = new Estudiante(idStudent, StudentName, StudentLastName, StudentAddress, StudentPhone);
         EstudiantesDatos estudiantesDatos = new EstudiantesDatos();
         estudiantesDatos.insertStudent(estudiante);
 
     }
-
-        public static void main(String[] args) {
-            JFrame frame = new JFrame();
-            frame.setContentPane(new AnadirEstudiante().mainPanel);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setVisible(true);
-
-        }
-
 
 }
