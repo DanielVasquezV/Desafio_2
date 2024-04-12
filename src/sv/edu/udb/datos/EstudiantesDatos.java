@@ -17,9 +17,10 @@ public class EstudiantesDatos {
             String SQL_Insert = "INSERT INTO estudiantes (IdEstudiante, nombre, apellido, direccion, telefono) VALUES (?,?,?,?,?)";
             stmt = conn.prepareStatement(SQL_Insert);
             stmt.setInt(1, estudiante.getIdEstudiante());
-            stmt.setString(2, estudiante.getApellidos());
-            stmt.setString(3, estudiante.getDireccion());
-            stmt.setString(4, estudiante.getTelefono());
+            stmt.setString(2,estudiante.getNombres());
+            stmt.setString(3, estudiante.getApellidos());
+            stmt.setString(4, estudiante.getDireccion());
+            stmt.setString(5, estudiante.getTelefono());
             rows = stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estudiante agregado exitosamente");
 

@@ -17,14 +17,12 @@ public class AnadirEstudiante extends JFrame{
     private JTextField txtStudentAddress;
     private JTextField txtStudentPhone;
     private JButton btnAddStudent;
-    Estudiante estudiante = new Estudiante();
 
 
 
 
     public AnadirEstudiante() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setContentPane(mainPanel);
         this.setMinimumSize(new Dimension(700, 450));
         this.setLocationRelativeTo(getParent());
         btnBack.addActionListener(new ActionListener() {
@@ -61,9 +59,16 @@ public class AnadirEstudiante extends JFrame{
         else if(StudentPhone.isEmpty()){
             JOptionPane.showMessageDialog(null,"Debe agregar un numero de telefono en caso de emergencia");
         }
-        estudiante = new Estudiante(idStudent, StudentName, StudentLastName, StudentAddress, StudentPhone);
+        Estudiante estudiante = new Estudiante(idStudent, StudentName, StudentLastName, StudentAddress, StudentPhone);
         EstudiantesDatos estudiantesDatos = new EstudiantesDatos();
         estudiantesDatos.insertStudent(estudiante);
 
     }
+    public static void main(String[] args) {
+        // Create a new instance of AnadirEstudiante and make it visible
+        AnadirEstudiante frame = new AnadirEstudiante();
+        frame.setVisible(true);
+    }
+
+
 }

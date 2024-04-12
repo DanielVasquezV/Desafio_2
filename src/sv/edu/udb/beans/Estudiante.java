@@ -15,9 +15,7 @@ public class Estudiante {
         this.telefono = telefono;
     }
 
-    public Estudiante() {
 
-    }
 
     // Métodos Setter
     public void setIdEstudiante(int idEstudiante) {
