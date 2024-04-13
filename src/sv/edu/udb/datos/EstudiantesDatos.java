@@ -32,6 +32,31 @@ public class EstudiantesDatos {
         }
     }
 
+    public boolean isPhoneValid(Connection conn, String telefono) throws SQLException {
+        String SQL_SELECT = "SELECT COUNT(*) FROM estudiantes WHERE telefono = ?";
+        PreparedStatement stmt = conn.prepareStatement(SQL_SELECT);
+        stmt.setString(1, telefono);
+
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            return false; // Retorna falso si el telefono ya existe
+        }
+        return true;
+    }
+
+    public boolean isAddresValid(Connection conn, String direction) throws SQLException {
+        String SQL_SELECT = "SELECT COUNT(*) FROM estudiantes WHERE direccion = ?";
+        PreparedStatement stmt = conn.prepareStatement(SQL_SELECT);
+        stmt.setString(1, direction);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+
     public DefaultComboBoxModel<ItemCombox> selectStudent() {
         DefaultComboBoxModel<ItemCombox> model = new DefaultComboBoxModel<>();
         Connection conn;

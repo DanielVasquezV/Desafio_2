@@ -1,12 +1,13 @@
 package sv.edu.udb.forms;
 
 import javax.swing.*;
+import java.sql.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 import sv.edu.udb.beans.Estudiante;
 import sv.edu.udb.datos.EstudiantesDatos;
+import sv.edu.udb.utils.DBConnection;
 
 
 public class AnadirEstudiante extends JFrame{
@@ -17,6 +18,8 @@ public class AnadirEstudiante extends JFrame{
     private JTextField txtStudentAddress;
     private JTextField txtStudentPhone;
     private JButton btnAddStudent;
+    EstudiantesDatos estudiantesDatos = new EstudiantesDatos();
+
 
 
 
@@ -26,19 +29,13 @@ public class AnadirEstudiante extends JFrame{
         this.setContentPane(mainPanel);
         this.setMinimumSize(new Dimension(700, 450));
         this.setLocationRelativeTo(getParent());
-        btnBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Inicio inicio = new Inicio();
-                inicio.setVisible(true);
-                dispose();  // Hide the current frame
-            }
+        btnBack.addActionListener(e -> {
+            Inicio inicio = new Inicio();
+            inicio.setVisible(true);
+            dispose();  // Hide the current frame
         });
 
-        btnAddStudent.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {addStudent();}
-        });
+        btnAddStudent.addActionListener(e -> addStudent());
     }
 
     private void addStudent(){
@@ -56,17 +53,30 @@ public class AnadirEstudiante extends JFrame{
             JOptionPane.showMessageDialog(null, "El apellido del estudiante no puede estar vacio",
                     "Error de validacion", JOptionPane.ERROR_MESSAGE);
         }
-        else if(StudentAddress.isEmpty()){
+        else if(StudentAddress.isEmpty() ){
             JOptionPane.showMessageDialog(null, "La direccion del estudiante no puede estar vacia",
                     "Error de validacion", JOptionPane.ERROR_MESSAGE);
         }
-        else if(StudentPhone.isEmpty()){
-            JOptionPane.showMessageDialog(null,"Debe agregar un numero de telefono en caso de emergencia",
+
+        if (StudentPhone.isEmpty() || StudentPhone.length()>10 ) {
+            JOptionPane.showMessageDialog(null, "El numeor de telefono no cuenta con los digitos necesarios",
                     "Error de validacion", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // validacion del numero de telefono
+            try {
+                if (estudiantesDatos.isPhoneValid(DBConnection.getConnection(), StudentPhone)) {
+                    Estudiante estudiante = new Estudiante(idStudent, StudentName, StudentLastName, StudentAddress, StudentPhone);
+                    estudiantesDatos.insertStudent(estudiante);
+                } else {
+                    JOptionPane.showMessageDialog(null, "El número de teléfono ya esta registrado" +
+                            "agregue uno nuevo", "Error de validacion", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al validar el teléfono", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println(e.getMessage());
+            }
         }
-        Estudiante estudiante = new Estudiante(idStudent, StudentName, StudentLastName, StudentAddress, StudentPhone);
-        EstudiantesDatos estudiantesDatos = new EstudiantesDatos();
-        estudiantesDatos.insertStudent(estudiante);
+
 
     }
 
