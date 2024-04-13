@@ -1,5 +1,5 @@
 package sv.edu.udb.forms;
-
+import sv.edu.udb.datos.ListarEstudiantesDatos;
 import sv.edu.udb.beans.Estudiante;
 import sv.edu.udb.utils.DBConnection;
 import java.sql.*;
@@ -24,12 +24,12 @@ public class ListarEstudiantes extends JFrame {
         this.setMinimumSize(new Dimension(700, 450));
         this.setLocationRelativeTo(getParent());
         //Table Header
-        String [] listColums = {"ID","Nombres", "Apellidos", "Teléfono"};
+        String[] listColums = {"ID", "Nombres", "Apellidos", "Teléfono"};
         //Table model definitions
-        listAllStudents = new DefaultTableModel(listColums, 0){
+        listAllStudents = new DefaultTableModel(listColums, 0) {
             public boolean isCellEditable(int row, int column) {
                 return false;
-            };
+            }
         };
         tblStudents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tblStudents.setColumnSelectionAllowed(false);
@@ -37,7 +37,7 @@ public class ListarEstudiantes extends JFrame {
         tblStudents.setModel(listAllStudents);
 
         // Fetch students data from database and populate the table
-        loadStudentsData();
+        ListarEstudiantesDatos.loadStudentsData(listAllStudents);
 
         btnBack.addActionListener(new ActionListener() {
             @Override
@@ -59,36 +59,5 @@ public class ListarEstudiantes extends JFrame {
                 }
             }
         });
-    }
-    // Method to load students data from the database
-    private void loadStudentsData() {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = DBConnection.getConnection();
-            String query = "SELECT idEstudiante, nombres, apellidos, telefono FROM estudiantes";
-            stmt = conn.prepareStatement(query);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Estudiante estudiante = new Estudiante();
-                estudiante.setIdEstudiante(rs.getInt("IdEstudiante"));
-                estudiante.setNombres(rs.getString("nombres"));
-                estudiante.setApellidos(rs.getString("apellidos"));
-                estudiante.setTelefono(rs.getString("telefono"));
-
-                Object[] rowData = {estudiante.getIdEstudiante(), estudiante.getNombres(), estudiante.getApellidos(), estudiante.getTelefono()};
-                listAllStudents.addRow(rowData);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            // Close resources
-            DBConnection.close(rs);
-            DBConnection.close(stmt);
-            DBConnection.close(conn);
-        }
     }
 }
