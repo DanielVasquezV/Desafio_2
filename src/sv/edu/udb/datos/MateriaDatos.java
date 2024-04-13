@@ -23,10 +23,10 @@ public class MateriaDatos {
             ps.setInt(1, materia.getIdMateria());
             ps.setString(2, materia.getMateria());
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Materia adicionado con exito");
+            JOptionPane.showMessageDialog(null, "Materia adicionada con éxito");
         }catch (SQLException e){
             System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Error al agragar la materia");
+            JOptionPane.showMessageDialog(null, "Error al agregar la materia");
         }
     }
 

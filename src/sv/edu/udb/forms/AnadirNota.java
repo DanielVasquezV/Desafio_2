@@ -62,25 +62,54 @@ public class AnadirNota extends JFrame{
         };
     }
 
-    private void addGrade(){
-        ItemCombox itemStudent = (ItemCombox)cmbStudents.getSelectedItem();
-        ItemCombox itemSubject = (ItemCombox)cmbSubjects.getSelectedItem();
-        double grade =Double.parseDouble(txtSubjectGrade.getText()); //obtengo lo que esta dentro del TextField
+    private void addGrade() {
+        ItemCombox itemStudent = (ItemCombox) cmbStudents.getSelectedItem();
+        ItemCombox itemSubject = (ItemCombox) cmbSubjects.getSelectedItem();
+        String gradeText = txtSubjectGrade.getText();
 
-        assert itemStudent != null;
-        assert itemSubject != null;
+        // Validar que se haya seleccionado un estudiante
+        if (itemStudent == null) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un estudiante.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar que se haya seleccionado una materia
+        if (itemSubject == null) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una materia.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar que se haya ingresado una nota
+        if (gradeText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese la nota.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double grade;
+        try {
+            grade = Double.parseDouble(gradeText);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese una nota válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar la nota dentro del rango válido (0 a 10)
+        if (grade < 0 || grade > 10) {
+            JOptionPane.showMessageDialog(null, "El valor de la nota debe estar entre 0 y 10.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         try (Connection conn = DBConnection.getConnection()) {
             if (!notaDatos.hasGrade(conn, itemStudent.getId(), itemSubject.getId())) {
                 Nota nota = new Nota(itemStudent.getId(), itemSubject.getId(), grade);
                 notaDatos.InsertGrade(nota);
             } else {
-                JOptionPane.showMessageDialog(null, "El estudiante ya tiene una nota para esta materia");
+                JOptionPane.showMessageDialog(null, "El estudiante ya tiene una nota para esta materia", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al verificar o insertar la nota", "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println(e.getMessage());
         }
-
     }
 
 }

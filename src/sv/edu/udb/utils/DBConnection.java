@@ -7,7 +7,7 @@ public class DBConnection {
     //El puerto es opcional
     private static String JDBC_URL = "jdbc:mysql://localhost:3306/desafio_poo";
     private static String JDBC_USER = "root";
-    private static String JDBC_PASS = "";
+    private static String JDBC_PASS = "12345";
     private static Driver driver = null;
     public static synchronized Connection getConnection()
             throws SQLException {

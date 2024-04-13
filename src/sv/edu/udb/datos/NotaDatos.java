@@ -12,22 +12,28 @@ import java.sql.SQLException;
 public class NotaDatos {
 
     public void InsertGrade(Nota nota) {
-
         Connection conn;
         PreparedStatement stmt;
         try {
             conn = DBConnection.getConnection();
+
+            // Validar que la nota esté dentro del rango válido (0 a 10)
+            if (nota.getNota() < 0 || nota.getNota() > 10) {
+                JOptionPane.showMessageDialog(null, "El valor de la nota debe estar entre 0 y 10.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             String SQL_Insert = "INSERT INTO notas (IdEstudiante, IdMateria, nota) VALUES (?,?,?)";
             stmt = conn.prepareStatement(SQL_Insert);
             stmt.setInt(1, nota.getIdEstudiante());
-            stmt.setInt(2,nota.getIdMateria());
+            stmt.setInt(2, nota.getIdMateria());
             stmt.setDouble(3, nota.getNota());
 
             stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Nota agregada con exito");
+            JOptionPane.showMessageDialog(null, "Nota agregada con éxito");
 
-        }catch (SQLException e){
-            JOptionPane.showMessageDialog(null, "nota no insertada");
+        } catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Nota no insertada");
 
         }
     }

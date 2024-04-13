@@ -20,10 +20,6 @@ public class AnadirEstudiante extends JFrame{
     private JButton btnAddStudent;
     EstudiantesDatos estudiantesDatos = new EstudiantesDatos();
 
-
-
-
-
     public AnadirEstudiante() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
@@ -59,7 +55,7 @@ public class AnadirEstudiante extends JFrame{
         }
 
         if (StudentPhone.isEmpty() || StudentPhone.length()>10 ) {
-            JOptionPane.showMessageDialog(null, "El numeor de telefono no cuenta con los digitos necesarios",
+            JOptionPane.showMessageDialog(null, "El número de teléfono no cuenta con los digitos necesarios",
                     "Error de validacion", JOptionPane.ERROR_MESSAGE);
         } else {
             // validacion del numero de telefono
@@ -69,15 +65,12 @@ public class AnadirEstudiante extends JFrame{
                     estudiantesDatos.insertStudent(estudiante);
                 } else {
                     JOptionPane.showMessageDialog(null, "El número de teléfono ya esta registrado" +
-                            "agregue uno nuevo", "Error de validacion", JOptionPane.ERROR_MESSAGE);
+                            " agregue uno nuevo", "Error de validacion", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al validar el teléfono", "Error", JOptionPane.ERROR_MESSAGE);
                 System.out.println(e.getMessage());
             }
         }
-
-
     }
-
 }
