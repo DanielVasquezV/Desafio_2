@@ -30,6 +30,15 @@ public class MateriaDatos {
         }
     }
 
+    public boolean isNameValid(Connection conn, String nombre) throws SQLException {
+        String SQL_SELECT = "SELECT COUNT(*) FROM materias WHERE nombre = ?";
+        PreparedStatement stmt = conn.prepareStatement(SQL_SELECT);
+        stmt.setString(1, nombre);
+
+        ResultSet rs = stmt.executeQuery();
+        return !rs.next() || rs.getInt(1) <= 0; // Retorna falso si el nombre ya existe ya existe
+    }
+
     //Objeto para poder obtener todas las materias que estan guardadas en la base de datos
     public DefaultComboBoxModel<ItemCombox> slectAllSubjetcs() {
         DefaultComboBoxModel<ItemCombox> model = new DefaultComboBoxModel<>();

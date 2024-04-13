@@ -2,11 +2,16 @@ package sv.edu.udb.forms;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 import sv.edu.udb.beans.Nota;
 import sv.edu.udb.datos.MateriaDatos;
 import sv.edu.udb.datos.NotaDatos;
+import sv.edu.udb.utils.DBConnection;
 import sv.edu.udb.utils.ItemCombox;
 import sv.edu.udb.datos.EstudiantesDatos;
 
@@ -19,6 +24,8 @@ public class AnadirNota extends JFrame{
     private JButton btnAddGrade;
     EstudiantesDatos estudiantesDatos = new EstudiantesDatos();
     MateriaDatos materiaDatos = new MateriaDatos();
+    NotaDatos notaDatos = new NotaDatos();
+
     public AnadirNota() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
@@ -62,9 +69,17 @@ public class AnadirNota extends JFrame{
 
         assert itemStudent != null;
         assert itemSubject != null;
-        Nota nota = new Nota(itemStudent.getId(), itemSubject.getId(), grade);
-        NotaDatos notaDatos = new NotaDatos();
-        notaDatos.InsertGrade(nota);
+        try (Connection conn = DBConnection.getConnection()) {
+            if (!notaDatos.hasGrade(conn, itemStudent.getId(), itemSubject.getId())) {
+                Nota nota = new Nota(itemStudent.getId(), itemSubject.getId(), grade);
+                notaDatos.InsertGrade(nota);
+            } else {
+                JOptionPane.showMessageDialog(null, "El estudiante ya tiene una nota para esta materia");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al verificar o insertar la nota", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.getMessage());
+        }
 
     }
 
